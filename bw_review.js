@@ -38,32 +38,77 @@
 window.onload = init;
 
 function init() {
+      // Will store the span element with the id of stars and a nested img
+      var stars = document.querySelectorAll("span#stars img");
 
-      var stars = document.querySelectorAll("spans#stars img");
-
-      // Will change 
+      // Will change the cursor style to a pointer while the mouse enters the star range
       for (var i = 0; i < stars.length; i++) {
             stars[i].style.cursor = "pointer";
             stars[i].addEventListener("mouseenter", lightStars);
       }
-      document.getElementById("comment").addEventListener("keyup");
+      document.getElementById("comment").addEventListener("keyup", updateCount);
 }
 
+// Function that will light the stars
 function lightStars(e) {
       var starNumber = e.target.alt;
-      var stars = document.querySelectorAll("spans#stars img");
+      // Will select all of the span element with the id of stars that has an img nested within
+      var stars = document.querySelectorAll("span#stars img");
 
       for (var i = 0; i < starNumber; i++) {
             stars[i].src = "bw_star2.png";
       }
 
       for (var i = starNumber; i < 5; i++) {
-            stars[i].src = "bw_star.png"
+            stars[i].src = "bw_star.png";
       }
-      document.getElementById("rating").value = starNumber + "stars";
+
+      // Command to display the rating in star
+      document.getElementById("rating").value = starNumber + " star(s)";
+      // Once the mouse leaves the stars range the function turnOffStars will be ran
+      e.target.addEventListener("mouseleave", turnOffStars);
+      // Once a click has been detected the event listener will be removed
+      e.target.addEventListener("click", function () {
+            e.target.removeEventListener("mouseleave", turnOffStars)
+      })
 }
 
+// Function that will turn off the stars
+function turnOffStars(e) {
+      var stars = document.querySelectorAll("span#stars img");
 
+      for (var i = 0; i < stars.length; i++) {
+            stars[i].src = "bw_star.png";
+      }
+
+      document.getElementById("rating").value = "";
+}
+
+function updateCount() {
+
+      // This variable will store the value of the comment text area box
+      var commentText = document.getElementById("comment").value;
+      // Calculate the text
+      var charCount = countCharacters(commentText);
+      // References the wordCount input box
+      var wordCountBox = document.getElementById("wordCount");
+      // Displays the value of the characters out of 1000
+      wordCount.value = charCount + "/1000";
+
+      // This if else statement will change the background color and the font color depending on the character count
+      if (charCount > 1000) {
+            wordCountBox.style.color = "white";
+            wordCountBox.style.backgroundColor = "red";
+      } else {
+            wordCountBox.style.color = "black";
+            wordCountBox.style.backgroundColor = "white"
+
+      }
+}
+
+function countCharacters(textStr) {
+
+}
 
 /*=================================================================*/
 
